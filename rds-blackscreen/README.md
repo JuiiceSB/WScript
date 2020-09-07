@@ -11,4 +11,4 @@ What it does:
 [HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Default]
 "bitmapCacheSize"=dword:00000000
 
-Actually not working, commands dont pass.
+Actually working on batch only.
