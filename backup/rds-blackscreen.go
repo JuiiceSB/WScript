@@ -1,22 +1,24 @@
 package main
 
 import (
-  "os"
-  "fmt"
+	"bytes"
+	"fmt"
+	"os/exec"
 )
 
-func deleteCache() {
-  dir := "C:\Users\%AppData%\Local\Microsoft\Terminal Server Client\Cache"
+func main() {
+	// Deletes all files on this path.
+	x := exec.Command("cmd", "/C", "DEL", "/Q", `%userprofile%\AppData\Local\Microsoft\Terminal Server Client\Cache\*.*`)
+	var out bytes.Buffer
+	var stderr bytes.Buffer
+	x.Stdout = &out
+	x.Stderr = &stderr
+	err := x.Run()
+	if err != nil {
+		fmt.Println(x)
+		fmt.Println(fmt.Sprint(err) + ": " + stderr.String())
+		return
+	}
+	fmt.Println("Result: " + out.String())
 
-  opendir, _ := os.Open(dir)
-  listdir, _ := opendir.Readdir(0)
-
-  for index := range(listdir) {
-    listed := listdir[index]
-
-    filename := listed.Name()
-    fullpath := dir + filename
-
-    os.Remove(fullpath)
-    fmt.Println("File removed:", fullpath)
-  }
+}
